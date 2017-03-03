@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ArrayOfSitePage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SitePage>
+    <Visibility>Supplementary</Visibility>
+    <Title>C# .NET Examples and Resources</Title>
+    <Url></Url>
+    <Category>None</Category>
+  </SitePage>
+  <SitePage>
+    <Visibility>Supplementary</Visibility>
+    <Title>Usability Guidelines for Web Writing</Title>
+    <Url>Content/Usability-Writing.aspx</Url>
+    <Category>None</Category>
+  </SitePage>
+  <SitePage>
+    <Visibility>Regular</Visibility>
+    <Title>Alphanumeric Sorting in C#</Title>
+    <Url>Content/Alphanumeric-Sorting.aspx</Url>
+    <Category>Algorithms</Category>
+  </SitePage>
+  <SitePage>
+    <Visibility>Regular</Visibility>
+    <Title>Word Count Algorithm in C#</Title>
+    <Url>Content/Word-Count-Algorithm.aspx</Url>
+    <Category>Algorithms</Category>
+  </SitePage>
+</ArrayOfSitePage>
