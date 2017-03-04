@@ -1,4 +1,6 @@
+using System.Xml.XPath;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace TallyXMLReader.XmlGenerators
 {
@@ -9,12 +11,20 @@ namespace TallyXMLReader.XmlGenerators
         public static void CreateStockCategoryXml(XElement tallyXml, params string[] args)
         {
             XElement stockCategoryXml = XmlComponentGenerator.CreateXmlFromTemplate(xmlFileName, args);
-            //now add it
+            
+            //now add it to TallyXml
+            XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
+            parentNode.LastNode.AddAfterSelf(stockCategoryXml);
         }
 
-        public static bool CheckIfAlreadyCreated(string childCategoryName, XElement xml)
+        public static bool IsAlreadyCreated(string categoryName, XElement tallyXml)
         {
-            return true;
+            XElement xml = tallyXml.XPathSelectElement($"//REQUESTDATA/TALLYMESSAGE/STOCKGROUP[@NAME='{categoryName}']");
+
+            if(xml != null)
+                return true;
+            
+            return false;
         }
     }
 }

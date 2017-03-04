@@ -11,7 +11,8 @@ namespace TallyXMLReader.CSVParser
             Map(m => m.Barcode).Name("BARCODE");
             Map(m => m.CP).Name("CP");
             Map(m => m.SP).Name("SP");
-            Map(m => m.Qty).Name("QTY");
+            Map(m => m.BilledQty).Name("QTY");
+            Map(m => m.ActualQty).Name("QTY");
             Map(m => m.ImgPath).Name("IMG_PATH");
             Map(m => m.Desc1).Name("DESC1");
             Map(m => m.Desc2).Name("DESC2");

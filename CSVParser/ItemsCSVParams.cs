@@ -7,7 +7,8 @@ namespace TallyXMLReader.CSVParser
         public string Barcode { get; set; }
         public string CP { get; set; }
         public string SP { get; set; }
-        public string Qty { get; set; }
+        public string BilledQty { get; set; }
+        public string ActualQty { get; set; }
         public string ImgPath { get; set; }
         public string Desc1 { get; set; }
         public string Desc2 { get; set; }

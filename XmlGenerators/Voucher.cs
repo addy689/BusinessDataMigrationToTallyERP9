@@ -1,4 +1,6 @@
+using System.Xml.XPath;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace TallyXMLReader.XmlGenerators
 {
@@ -14,24 +16,28 @@ namespace TallyXMLReader.XmlGenerators
         public static void CreateVoucherXml(XElement tallyXml, params string[] args)
         {
             XElement voucherXml = XmlComponentGenerator.CreateXmlFromTemplate(xmlFileName, args);
-            //now add it
-        }
-
-        
-        // public static void ComputeTotalAmount(XElement tallyXml)
-        // {
-        //     //use allInventoriesListElements to compute total ledger amount,
-        //     //and insert it into appropriate tag under voucherXml
-        // }
-
-        // public static void AddInventoryListToVoucherXml(XElement tallyXml)
-        // {
             
-        // }
+            //now add it to TallyXml
+            XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
+            parentNode.LastNode.AddAfterSelf(voucherXml);
+        }
 
         public static string GetPartyNameFromVoucherXml(XElement tallyXml)
         {
-            return null;
+            return (tallyXml.XPathSelectElement("//REQUESTDATA//VOUCHER/PARTYLEDGERNAME")).Value;
+        }
+
+        public static void UpdateFinalAmtInVoucherXml(float voucherAmt, XElement tallyXml)
+        {
+            string isDeemedPositive = ComputationHelper.IsDeemedPositive(voucherAmt);
+
+            var elmt = tallyXml.XPathSelectElement("//REQUESTDATA//VOUCHER/LEDGERENTRIES.LIST");
+            
+            elmt.XPathSelectElement("./AMOUNT").Value = string.Format(elmt.XPathSelectElement("./AMOUNT").Value,
+                                                                         voucherAmt.ToString("0.00"));
+                
+            elmt.XPathSelectElement("./ISDEEMEDPOSITIVE").Value = string.Format(elmt.XPathSelectElement("./ISDEEMEDPOSITIVE").Value,
+                                                                             isDeemedPositive);                                                                         
         }
 
     }

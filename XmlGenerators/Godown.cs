@@ -1,4 +1,6 @@
+using System.Xml.XPath;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace TallyXMLReader.XmlGenerators
 {
@@ -9,12 +11,20 @@ namespace TallyXMLReader.XmlGenerators
         public static void CreateGodownXml(XElement tallyXml, params string[] args)
         {
             XElement godownXml = XmlComponentGenerator.CreateXmlFromTemplate(xmlFileName, args);
-            //now add it
+            
+            //now add it to TallyXml
+            XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
+            parentNode.LastNode.AddAfterSelf(godownXml);
         }
 
-        public static bool CheckIfAlreadyCreated(string childGodownName, XElement xml)
+        public static bool IsAlreadyCreated(string godownName, XElement tallyXml)
         {
-            return true;
+            XElement xml = tallyXml.XPathSelectElement($"//REQUESTDATA/TALLYMESSAGE/STOCKGROUP[@NAME='{godownName}']");
+
+            if(xml != null)
+                return true;
+            
+            return false;
         }
     }
 }
