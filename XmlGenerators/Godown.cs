@@ -2,7 +2,7 @@ using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Linq;
 
-namespace TallyXMLReader.XmlGenerators
+namespace MigrationToTallyERP9.XmlGenerators
 {
     public class Godown
     {
@@ -19,7 +19,7 @@ namespace TallyXMLReader.XmlGenerators
 
         public static bool IsAlreadyCreated(string godownName, XElement tallyXml)
         {
-            XElement xml = tallyXml.XPathSelectElement($"//REQUESTDATA/TALLYMESSAGE/STOCKGROUP[@NAME='{godownName}']");
+            XElement xml = tallyXml.XPathSelectElement($"//REQUESTDATA/TALLYMESSAGE/GODOWN[@NAME='{godownName}']");
 
             if(xml != null)
                 return true;

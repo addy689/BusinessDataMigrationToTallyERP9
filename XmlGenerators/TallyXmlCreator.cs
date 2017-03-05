@@ -1,24 +1,26 @@
 using System.IO;
 using System.Xml.Linq;
+using System.Linq;
 using System.Collections.Generic;
-using TallyXMLReader.CSVParser;
+using MigrationToTallyERP9.CSVParser;
 
-namespace TallyXMLReader.XmlGenerators
+namespace MigrationToTallyERP9.XmlGenerators
 {
     public class TallyXmlCreator
     {
+        private static HeaderCSVParams headerParams;
         public static void CreateTallyXmlsUsingHeaderParams(IEnumerable<HeaderCSVParams> headerCSVParams, XElement tallyXml)
         {
-            //create and insert into TallyXml
-            foreach (HeaderCSVParams headerParams in headerCSVParams)
-            {
-                //Note that voucher xml is being filled with {0} for values
-                //that need to be computed during post-processing
-                Voucher.CreateVoucherXml(tallyXml, headerParams.BillDate, headerParams.RecvDate, headerParams.VchType,
-                             headerParams.InvNo, headerParams.PartyName, headerParams.VchNo, "{0}");
+            headerParams = headerCSVParams.First();
 
-                Ledger.CreateLedgerXml(tallyXml, headerParams.PartyName, headerParams.CountryName);
-            }
+            //Note that voucher xml is being filled with {0} for values
+            //that need to be computed during post-processing
+            Voucher.CreateVoucherXml(tallyXml, headerParams.VchRemoteId, headerParams.BillDate, headerParams.RecvDate, headerParams.VchType,
+                            headerParams.InvNo, headerParams.PartyName, headerParams.VchNo, "{0}");
+
+            Ledger.CreatePartyLedgerXml(tallyXml, headerParams.PartyName, headerParams.CountryName);
+            Ledger.CreatePurchaseLedgerXml(tallyXml, headerParams.PurchLedger);
+
         }
 
         public static void CreateTallyXmlsUsingItemsParams(IEnumerable<ItemsCSVParams> itemsCSVParams, XElement tallyXml)
@@ -61,11 +63,13 @@ namespace TallyXMLReader.XmlGenerators
                 }
 
                 //Create and add StockItem xml
-                StockItem.CreateStockItemXml(tallyXml, itemParams.ItemName, itemParams.PartNo,
-                    itemParams.StockGroupChild, itemParams.StockCategoryChild, itemParams.Barcode,
-                    itemParams.CP, itemParams.SP, itemParams.ImgPath, itemParams.Desc1,
-                    itemParams.Desc2, itemParams.Desc3);
-
+                if (!StockItem.IsAlreadyCreated(itemParams.ItemName, tallyXml))
+                {
+                    StockItem.CreateStockItemXml(tallyXml, itemParams.ItemName, itemParams.PartNo,
+                        itemParams.StockGroupChild, itemParams.StockCategoryChild, itemParams.Barcode,
+                        itemParams.CP, itemParams.SP, itemParams.ImgPath, itemParams.Desc1,
+                        itemParams.Desc2, itemParams.Desc3);
+                }
 
                 //Check if AllInventoryEntriesList has already been created for a stock item
                 //and if not, create it (note that xml is being filled with {0} for values
@@ -73,17 +77,14 @@ namespace TallyXMLReader.XmlGenerators
                 if (!AllInventoryEntriesList.IsAlreadyCreated(itemParams.ItemName, tallyXml))
                 {
                     AllInventoryEntriesList.CreateAllInventoryEntriesListXml(tallyXml, itemParams.Desc1,
-                        itemParams.Desc2, itemParams.Desc3, itemParams.ItemName, itemParams.CP, "{0}");
+                        itemParams.Desc2, itemParams.Desc3, itemParams.ItemName, itemParams.CP, "{0}",
+                        headerParams.PurchLedger);
                 }
 
                 //Create and add BatchAllocationsList xml
                 float batchCP = -ComputationHelper.CalculateAmount(itemParams.CP, itemParams.BilledQty);
                 BatchAllocationsList.CreateBatchAllocationsListXml(tallyXml, itemParams.ItemName, itemParams.GodownChild,
                     batchCP.ToString("0.00"), itemParams.ActualQty, itemParams.BilledQty);
-
-
-                //MAY NEED TO ADD CODE FOR ACCOUNTINGALLOCATIONS.LIST xml. CHECK WITH DAD
-                // string partyName = Voucher.GetPartyNameFromVoucherXml(tallyXml);
             }
         }
 
@@ -103,8 +104,10 @@ namespace TallyXMLReader.XmlGenerators
 
     public class XmlComponentGenerator
     {
-        private readonly static string xmlTemplatesDir = @"/mnt/hgfs/SharedWithVM/TallyApp/TemplateXmls";
-        public static string XmlTemplatesDir { get { return xmlTemplatesDir; } }
+        public static XElement TallyXml
+        {
+            get { return XElement.Load(Configurations.XmlTemplatesDir + @"/TallyXmlTemplate.xml"); }
+        }
 
         /// <summary>
         /// Fetches the template xml for @xmlTemplateName and fills it using values supplied in @args
@@ -114,7 +117,7 @@ namespace TallyXMLReader.XmlGenerators
         /// <returns></returns>
         public static XElement CreateXmlFromTemplate(string xmlTemplateName, params string[] args)
         {
-            string xmlTemplateFile = XmlTemplatesDir + $"/{xmlTemplateName}.xml";
+            string xmlTemplateFile = Configurations.XmlTemplatesDir + $"/{xmlTemplateName}.xml";
 
             string xmlTemplateString = File.OpenText(xmlTemplateFile).ReadToEnd();
             string filledXmlString = string.Format(xmlTemplateString, args);

@@ -1,6 +1,6 @@
 using CsvHelper.Configuration;
 
-namespace TallyXMLReader.CSVParser
+namespace MigrationToTallyERP9.CSVParser
 {
     public sealed class ItemsCSVParamsMap : CsvClassMap<ItemsCSVParams>
     {
@@ -23,7 +23,6 @@ namespace TallyXMLReader.CSVParser
             Map(m => m.StockCategoryChild).Name("CATEGORY1");
             Map(m => m.GodownParent).Name("GODOWN0");
             Map(m => m.GodownChild).Name("GODOWN1");
-            Map(m => m.PartyName).Name("PARTY_NAME");
         }
     }
 }

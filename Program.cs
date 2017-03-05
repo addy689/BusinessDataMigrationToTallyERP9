@@ -1,45 +1,29 @@
-using System;
-using System.Linq;
 using System.Xml.Linq;
-using System.Xml.XPath;
-using System.Collections.Generic;
+using System.IO;
+using MigrationToTallyERP9.CSVParser;
+using MigrationToTallyERP9.XmlGenerators;
 
-using TallyXMLReader.CSVParser;
-using TallyXMLReader.XmlGenerators;
-
-namespace TallyXMLReader
+namespace MigrationToTallyERP9
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            XElement tallyXmlDoc = XElement.Load(@"/mnt/hgfs/SharedWithVM/TallyApp/TemplateXmls/TallyXmlTemplate.xml");
+            //Load the main Tally XML document to which data is to be added
+            XElement tallyXmlDoc = XmlComponentGenerator.TallyXml;
 
-            // var stockItemName = "AL-RG Necklace";
-            // XElement xml = tallyXmlDoc.XPathSelectElement($"//REQUESTDATA//VOUCHER/ALLINVENTORYENTRIES.LIST/STOCKITEMNAME[.='{stockItemName}']");
-            
-            // string a = "-40";
-            // var r = float.Parse(a);
-            // Console.WriteLine(r);
-                        
+            //Parse the input CSVs using CSVHelper library
+            var headerCSVParams = ParseCSVFiles.ParseHeaderCSV(Configurations.InputCSVDataDir + @"/SampleHeader.csv");
+            var itemsCSVParams = ParseCSVFiles.ParseItemsCSV(Configurations.InputCSVDataDir + @"/SampleItems.csv");
 
-            // string groupName = "Alloy";
-            // XElement b = tallyXmlDoc.XPathSelectElement($"//REQUESTDATA/TALLYMESSAGE/STOCKGROUP[@NAME='{groupName}']");
-
-            // Console.WriteLine(tallyXmlDoc.Element("CURRENCY").Name.ToString());
-
-            var headerCSVParams = ParseCSVFiles.ParseHeaderCSV(XmlComponentGenerator.XmlTemplatesDir + @"/SampleHeaderCSV.xml");
-            var itemsCSVParams = ParseCSVFiles.ParseItemsCSV(XmlComponentGenerator.XmlTemplatesDir + @"/SampleItemCSV.xml");
-
+            //Create the XML data components to be added using the parsed CSV and template Xmls
             TallyXmlCreator.CreateTallyXmlsUsingHeaderParams(headerCSVParams, tallyXmlDoc);
             TallyXmlCreator.CreateTallyXmlsUsingItemsParams(itemsCSVParams, tallyXmlDoc);
             TallyXmlCreator.DoPostProcessing(tallyXmlDoc);
-            
-            Console.WriteLine(tallyXmlDoc.ToString());
-            //For each csv item, 
-            //- fill all possible xml templates, and append to the TallyXML DOM object
-            //Finally, compute total in Voucher from all entries in ALLINVENTORIES.LIST
-            
+
+            //??WHAT ABOUT ACCOUNTINGENTRIES.LISTs            
+            FileStream fs = new FileStream(Configurations.XmlTemplatesDir + @"/FinalTallyXml.xml", FileMode.Create);
+            tallyXmlDoc.Save(fs);
         }
 
     }

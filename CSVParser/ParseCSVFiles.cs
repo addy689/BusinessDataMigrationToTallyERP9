@@ -2,7 +2,7 @@ using System.IO;
 using System.Collections.Generic;
 using CsvHelper;
 
-namespace TallyXMLReader.CSVParser
+namespace MigrationToTallyERP9.CSVParser
 {
     public class ParseCSVFiles
     {

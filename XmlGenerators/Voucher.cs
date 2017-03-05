@@ -2,7 +2,7 @@ using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Linq;
 
-namespace TallyXMLReader.XmlGenerators
+namespace MigrationToTallyERP9.XmlGenerators
 {
     public class Voucher
     {
@@ -13,10 +13,12 @@ namespace TallyXMLReader.XmlGenerators
         /// </summary>
         /// <param name="tallyXml">The main Tally Xml DOM object</param>
         /// <param name="args">The values to be filled in the template xml</param>
-        public static void CreateVoucherXml(XElement tallyXml, params string[] args)
+        public static void CreateVoucherXml(XElement tallyXml, string vchRemoteId, params string[] args)
         {
             XElement voucherXml = XmlComponentGenerator.CreateXmlFromTemplate(xmlFileName, args);
             
+            voucherXml.SetAttributeValue("REMOTEID", vchRemoteId);
+
             //now add it to TallyXml
             XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
             parentNode.LastNode.AddAfterSelf(voucherXml);
@@ -33,11 +35,14 @@ namespace TallyXMLReader.XmlGenerators
 
             var elmt = tallyXml.XPathSelectElement("//REQUESTDATA//VOUCHER/LEDGERENTRIES.LIST");
             
-            elmt.XPathSelectElement("./AMOUNT").Value = string.Format(elmt.XPathSelectElement("./AMOUNT").Value,
-                                                                         voucherAmt.ToString("0.00"));
+            elmt.XPathSelectElement("./AMOUNT").Value = 
+                        string.Format(elmt.XPathSelectElement("./AMOUNT").Value, voucherAmt.ToString("0.00"));
+            
+            elmt.XPathSelectElement("./BILLALLOCATIONS.LIST/AMOUNT").Value = 
+                        string.Format(elmt.XPathSelectElement("./BILLALLOCATIONS.LIST/AMOUNT").Value, voucherAmt.ToString("0.00"));
                 
-            elmt.XPathSelectElement("./ISDEEMEDPOSITIVE").Value = string.Format(elmt.XPathSelectElement("./ISDEEMEDPOSITIVE").Value,
-                                                                             isDeemedPositive);                                                                         
+            elmt.XPathSelectElement("./ISDEEMEDPOSITIVE").Value = 
+                        string.Format(elmt.XPathSelectElement("./ISDEEMEDPOSITIVE").Value, isDeemedPositive);                                                                         
         }
 
     }

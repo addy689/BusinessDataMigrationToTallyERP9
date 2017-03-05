@@ -1,7 +1,8 @@
-namespace TallyXMLReader.CSVParser
+namespace MigrationToTallyERP9.CSVParser
 {
     public class HeaderCSVParams
     {
+        public string VchRemoteId { get; set; }
         public string PartyName { get; set; }
         public string CountryName { get; set; }
         public string BillDate { get; set; }
@@ -9,6 +10,7 @@ namespace TallyXMLReader.CSVParser
         public string VchType { get; set; }
         public string InvNo { get; set; }
         public string VchNo { get; set; }
+        public string PurchLedger { get; set; }
 
         // public HeaderCSVParams(string partyName, string countryName, string billDate,
         //  string recvDate, string vchType, string invNo, string vchNo)

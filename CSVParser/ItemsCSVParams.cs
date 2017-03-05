@@ -1,4 +1,4 @@
-namespace TallyXMLReader.CSVParser
+namespace MigrationToTallyERP9.CSVParser
 {
     public class ItemsCSVParams
     {

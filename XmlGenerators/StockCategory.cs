@@ -2,7 +2,7 @@ using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Linq;
 
-namespace TallyXMLReader.XmlGenerators
+namespace MigrationToTallyERP9.XmlGenerators
 {
     public class StockCategory
     {
@@ -19,7 +19,7 @@ namespace TallyXMLReader.XmlGenerators
 
         public static bool IsAlreadyCreated(string categoryName, XElement tallyXml)
         {
-            XElement xml = tallyXml.XPathSelectElement($"//REQUESTDATA/TALLYMESSAGE/STOCKGROUP[@NAME='{categoryName}']");
+            XElement xml = tallyXml.XPathSelectElement($"//REQUESTDATA/TALLYMESSAGE/STOCKCATEGORY[@NAME='{categoryName}']");
 
             if(xml != null)
                 return true;

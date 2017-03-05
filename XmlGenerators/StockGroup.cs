@@ -2,7 +2,7 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Xml.XPath;
 
-namespace TallyXMLReader.XmlGenerators
+namespace MigrationToTallyERP9.XmlGenerators
 {
     public class StockGroup
     {
@@ -14,7 +14,7 @@ namespace TallyXMLReader.XmlGenerators
             
             //now add it to TallyXml
             XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
-            parentNode.LastNode.AddAfterSelf();
+            parentNode.LastNode.AddAfterSelf(stockGroupXml);
         }
         
         public static bool IsAlreadyCreated(string groupName, XElement tallyXml)

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace TallyXMLReader.XmlGenerators
+namespace MigrationToTallyERP9.XmlGenerators
 {
     public class BatchAllocationsList
     {
@@ -17,7 +17,7 @@ namespace TallyXMLReader.XmlGenerators
         }
 
         /// <summary>
-        /// Adds an item's BATCHALLOCATIONS.LIST to it's corresponding ALLINVENTORIES.LIST
+        /// Adds an item's BATCHALLOCATIONS.LIST to it's corresponding ALLINVENTORYENTRIES.LIST
         /// </summary>
         /// <param name="tallyXml"></param>
         /// <param name="batchAllocXml"></param>
@@ -25,7 +25,7 @@ namespace TallyXMLReader.XmlGenerators
         private static void AddXmlToCorrespondingInventoriesList(XElement tallyXml, XElement batchAllocXml, string stockItemName)
         {
             //Add BatchAllocationXml to the AllInventory list that has the same item name
-            XElement[] res = tallyXml.XPathSelectElements("//REQUESTDATA//VOUCHER/ALLINVENTORIES.LIST").Where<XElement>(el => el.XPathSelectElement($"./STOCKITEMNAME[.='{stockItemName}']") != null).ToArray();
+            XElement[] res = tallyXml.XPathSelectElements("//REQUESTDATA//VOUCHER/ALLINVENTORYENTRIES.LIST").Where<XElement>(el => el.XPathSelectElement($"./STOCKITEMNAME[.='{stockItemName}']") != null).ToArray();
 
             if(res.Length<=0)
             {
@@ -35,9 +35,9 @@ namespace TallyXMLReader.XmlGenerators
             
             /* If no BatchAllocations xml present, then add the xml at the end of AllInventory.List xml
             otherwise add next to the last BatchAllocations xml */
-            var batchAllocNodes = res[0].XPathSelectElements("./BATCHALLOCATIONS.LIST");
+            var batchAllocNodes = res[0].XPathSelectElements("./BATCHALLOCATIONS.LIST").ToArray();
             
-            if(batchAllocNodes==null)
+            if(batchAllocNodes.Count() == 0)
                 res[0].LastNode.AddAfterSelf(batchAllocXml);
             else
                 batchAllocNodes.Last().AddAfterSelf(batchAllocXml);

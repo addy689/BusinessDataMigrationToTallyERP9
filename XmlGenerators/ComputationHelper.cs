@@ -1,6 +1,7 @@
 using System;
+using System.Text.RegularExpressions;
 
-namespace TallyXMLReader.XmlGenerators
+namespace MigrationToTallyERP9.XmlGenerators
 {
     public class ComputationHelper
     {
@@ -21,6 +22,18 @@ namespace TallyXMLReader.XmlGenerators
                 Console.WriteLine($"Unable to parse {quantity} as int");
 
             return (cp * qty);
+        }
+
+        public static string ExtractNumericQtyFromString(string qty)
+        {
+            string pattern = @".*?([0-9]+).*";
+            Regex regex = new Regex(pattern);
+
+            Match match = regex.Match(qty);
+            if (match.Success)
+                return match.Groups[1].Value;
+
+            return "Could not extract qty";
         }
 
     }
