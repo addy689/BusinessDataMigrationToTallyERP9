@@ -1,3 +1,4 @@
+//adding small change to check if merge strategy works upon seeing conflict with other branch
 {
     "version": "0.1.0",
     "command": "dotnet",
