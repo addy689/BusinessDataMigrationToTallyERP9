@@ -1,2 +1,2 @@
-test/ merge=ours
+test/* merge=ours
 .gitignore merge=ours
