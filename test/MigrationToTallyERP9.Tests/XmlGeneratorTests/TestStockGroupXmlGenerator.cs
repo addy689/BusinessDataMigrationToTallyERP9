@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MigrationToTallyERP9.XmlGenerators;
 
-namespace MigrationToTallyERP9.UnitTests.XmlGeneratorTests
+namespace MigrationToTallyERP9.Tests.XmlGeneratorTests
 {
     [TestClassAttribute]
     public class TestStockGroupXmlGenerator

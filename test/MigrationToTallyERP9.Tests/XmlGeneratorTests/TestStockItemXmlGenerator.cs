@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using MigrationToTallyERP9.XmlGenerators;
 
-namespace MigrationToTallyERP9.UnitTests.XmlGeneratorTests
+namespace MigrationToTallyERP9.Tests.XmlGeneratorTests
 {
     [TestClassAttribute]
     public class TestStockItemXmlGenerator
@@ -20,7 +20,7 @@ namespace MigrationToTallyERP9.UnitTests.XmlGeneratorTests
 
             string expectedLastNodeType = "STOCKITEM";
             string expectedLastNodeName = "AL-RG Necklace";
-            XElement expectedStockItemXml = XElement.Load(@"./UnitTests/XmlGeneratorTests/FilledSTOCKITEM.xml").Element("STOCKITEM");
+            XElement expectedStockItemXml = XElement.Load(@"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/test/MigrationToTallyERP9.Tests/XmlGeneratorTests/FilledSTOCKITEM.xml").Element("STOCKITEM");
 
             Assert.AreEqual(expectedLastNodeType, actualLastNode.Name);
             Assert.AreEqual(expectedLastNodeName, actualLastNode.Attribute("NAME").Value);

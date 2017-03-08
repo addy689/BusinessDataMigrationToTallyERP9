@@ -20,7 +20,6 @@ namespace MigrationToTallyERP9.XmlGenerators
 
             Ledger.CreatePartyLedgerXml(tallyXml, headerParams.PartyName, headerParams.CountryName);
             Ledger.CreatePurchaseLedgerXml(tallyXml, headerParams.PurchLedger);
-
         }
 
         public static void CreateTallyXmlsUsingItemsParams(IEnumerable<ItemsCSVParams> itemsCSVParams, XElement tallyXml)

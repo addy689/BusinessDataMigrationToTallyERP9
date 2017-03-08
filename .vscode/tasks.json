@@ -7,15 +7,19 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/project.json"
+                "**/project.json"
             ],
             "isBuildCommand": true,
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "showOutput": "always"
         },
         {
             "taskName": "test",
-            "args": [],
+            "args": [
+                "${workspaceRoot}/test/MigrationToTallyERP9.Tests/project.json"
+            ],
             "isTestCommand": true,
+            "showOutput": "always",
             "problemMatcher": "$msCompile"
         }
     ]

@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MigrationToTallyERP9.CSVParser;
 using System.Linq;
 
-namespace MigrationToTallyERP9.UnitTests.CSVParserTests
+namespace MigrationToTallyERP9.Tests.CSVParserTests
 {
     [TestClassAttribute]
     public class TestParseCSVFiles
@@ -10,7 +10,7 @@ namespace MigrationToTallyERP9.UnitTests.CSVParserTests
         [TestMethodAttribute]
         public void ReadSampleHeaderCSV()
         {
-            string sampleHeaderCSVFile = @"./UnitTests/CSVParserTests/TestSampleHeader.csv";
+            string sampleHeaderCSVFile = @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/test/MigrationToTallyERP9.Tests/CSVParserTests/TestSampleHeader.csv";
 
             var res = ParseCSVFiles.ParseHeaderCSV(sampleHeaderCSVFile).ToArray();
             Assert.AreEqual(1, res.Count());
@@ -28,7 +28,7 @@ namespace MigrationToTallyERP9.UnitTests.CSVParserTests
         [TestMethodAttribute]
         public void ReadSampleItemsCSV()
         {
-            string sampleItemsCSVFile = @"./UnitTests/CSVParserTests/TestSampleItems.csv";
+            string sampleItemsCSVFile = @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/test/MigrationToTallyERP9.Tests/CSVParserTests/TestSampleItems.csv";
 
             var res = ParseCSVFiles.ParseItemsCSV(sampleItemsCSVFile).ToArray();
             Assert.AreEqual(1, res.Count());
