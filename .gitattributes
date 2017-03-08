@@ -1,2 +1,4 @@
-test/* merge=ours
+test/ merge=ours
 .gitignore merge=ours
+.vscode/tasks.json merge=ours
+.gitattributes merge=ours
