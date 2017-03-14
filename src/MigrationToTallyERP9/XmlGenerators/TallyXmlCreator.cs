@@ -1,5 +1,6 @@
 using System.IO;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using System.Linq;
 using System.Collections.Generic;
 using MigrationToTallyERP9.CSVParser;
@@ -9,13 +10,14 @@ namespace MigrationToTallyERP9.XmlGenerators
     public class TallyXmlCreator
     {
         private static HeaderCSVParams headerParams;
+        private static XElement voucherXmlElement;
         public static void CreateTallyXmlsUsingHeaderParams(IEnumerable<HeaderCSVParams> headerCSVParams, XElement tallyXml)
         {
             headerParams = headerCSVParams.First();
 
             //Note that voucher xml is being filled with {0} for values
             //that need to be computed during post-processing
-            Voucher.CreateVoucherXml(tallyXml, headerParams.VchRemoteId, headerParams.BillDate, headerParams.RecvDate, headerParams.VchType,
+            voucherXmlElement = Voucher.CreateVoucherXml(tallyXml, headerParams.VchRemoteId, headerParams.BillDate, headerParams.RecvDate, headerParams.VchType,
                             headerParams.InvNo, headerParams.PartyName, headerParams.VchNo, "{0}");
 
             Ledger.CreatePartyLedgerXml(tallyXml, headerParams.PartyName, headerParams.CountryName);
@@ -73,16 +75,16 @@ namespace MigrationToTallyERP9.XmlGenerators
                 //Check if AllInventoryEntriesList has already been created for a stock item
                 //and if not, create it (note that xml is being filled with {0} for values
                 //that need to be computed during post-processing)
-                if (!AllInventoryEntriesList.IsAlreadyCreated(itemParams.ItemName, tallyXml))
+                if (!AllInventoryEntriesList.IsAlreadyCreated(itemParams.ItemName, voucherXmlElement))
                 {
-                    AllInventoryEntriesList.CreateAllInventoryEntriesListXml(tallyXml, itemParams.Desc1,
+                    AllInventoryEntriesList.CreateAllInventoryEntriesListXml(voucherXmlElement, itemParams.Desc1,
                         itemParams.Desc2, itemParams.Desc3, itemParams.ItemName, itemParams.CP, "{0}",
                         headerParams.PurchLedger);
                 }
 
                 //Create and add BatchAllocationsList xml
                 float batchCP = -ComputationHelper.CalculateAmount(itemParams.CP, itemParams.BilledQty);
-                BatchAllocationsList.CreateBatchAllocationsListXml(tallyXml, itemParams.ItemName, itemParams.GodownChild,
+                BatchAllocationsList.CreateBatchAllocationsListXml(voucherXmlElement, itemParams.ItemName, itemParams.GodownChild,
                     batchCP.ToString("0.00"), itemParams.ActualQty, itemParams.BilledQty);
             }
         }
@@ -94,18 +96,23 @@ namespace MigrationToTallyERP9.XmlGenerators
         /// <param name="tallyXml"></param>
         public static void DoPostProcessing(XElement tallyXml)
         {
-            float voucherAmt = -AllInventoryEntriesList.CalculateAndFillInventoryEntryAmounts(tallyXml);
+            float voucherAmt = -AllInventoryEntriesList.CalculateAndFillInventoryEntryAmounts(voucherXmlElement);
 
             //Add the voucher amt to the xml
-            Voucher.UpdateFinalAmtInVoucherXml(voucherAmt, tallyXml);
-        }
+            Voucher.UpdateFinalAmtInVoucherXml(voucherAmt, voucherXmlElement);
+
+            //Add voucher xml to tally XML
+            XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
+
+            parentNode.Add(voucherXmlElement);
+        }        
     }
 
     public class XmlComponentGenerator
     {
         public static XElement TallyXml
         {
-            get { return XElement.Load(Configurations.XmlTemplatesDir + @"/TallyXmlTemplate.xml"); }
+            get { return XElement.Load(Configurations.XmlTemplatesDir + "TALLYMAIN.xml"); }
         }
 
         /// <summary>
@@ -116,7 +123,7 @@ namespace MigrationToTallyERP9.XmlGenerators
         /// <returns></returns>
         public static XElement CreateXmlFromTemplate(string xmlTemplateName, params string[] args)
         {
-            string xmlTemplateFile = Configurations.XmlTemplatesDir + $"/{xmlTemplateName}.xml";
+            string xmlTemplateFile = Configurations.XmlTemplatesDir + $"{xmlTemplateName}.xml";
 
             string xmlTemplateString = File.OpenText(xmlTemplateFile).ReadToEnd();
             string filledXmlString = string.Format(xmlTemplateString, args);

@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>All Masters</REPORTNAME>
+      </REQUESTDESC>
+      <REQUESTDATA>
+        <TALLYMESSAGE xmlns:UDF="TallyUDF">
+          <LEDGER NAME="JADAS" RESERVEDNAME="">
+            <MAILINGNAME.LIST TYPE="String">
+              <MAILINGNAME>JADAS</MAILINGNAME>
+            </MAILINGNAME.LIST>
+            <CURRENCYNAME>C$</CURRENCYNAME>
+            <COUNTRYNAME></COUNTRYNAME>
+            <PARENT>Sundry Creditors</PARENT>
+            <COUNTRYOFRESIDENCE></COUNTRYOFRESIDENCE>
+            <ISBILLWISEON>Yes</ISBILLWISEON>
+            <ISCOSTCENTRESON>No</ISCOSTCENTRESON>
+            <AFFECTSSTOCK>No</AFFECTSSTOCK>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>JADAS</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </LEDGER>
+          <LEDGER NAME="IMPORT PURCHASE" RESERVEDNAME="">
+            <CURRENCYNAME>C$</CURRENCYNAME>
+            <PARENT>Purchase Accounts</PARENT>
+            <ISBILLWISEON>No</ISBILLWISEON>
+            <ISCOSTCENTRESON>Yes</ISCOSTCENTRESON>
+            <AFFECTSSTOCK>Yes</AFFECTSSTOCK>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>IMPORT PURCHASE</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </LEDGER>
+          <GODOWN NAME="Kent" RESERVEDNAME="">
+            <PARENT></PARENT>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>Kent</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </GODOWN>
+          <GODOWN NAME="Kent Box" RESERVEDNAME="">
+            <PARENT>Kent</PARENT>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>Kent Box</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </GODOWN>
+          <STOCKGROUP NAME="Alloy Jewellery" RESERVEDNAME="">
+            <PARENT></PARENT>
+            <COSTINGMETHOD>Avg. Cost</COSTINGMETHOD>
+            <VALUATIONMETHOD>Avg. Price</VALUATIONMETHOD>
+            <BASEUNITS>no</BASEUNITS>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>Alloy Jewellery</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </STOCKGROUP>
+          <STOCKGROUP NAME="Alloy Necklaces" RESERVEDNAME="">
+            <PARENT>Alloy Jewellery</PARENT>
+            <COSTINGMETHOD>Avg. Cost</COSTINGMETHOD>
+            <VALUATIONMETHOD>Avg. Price</VALUATIONMETHOD>
+            <BASEUNITS>no</BASEUNITS>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>Alloy Necklaces</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </STOCKGROUP>
+          <STOCKCATEGORY NAME="XX" RESERVEDNAME="">
+            <PARENT></PARENT>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>XX</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </STOCKCATEGORY>
+          <STOCKCATEGORY NAME="104-XX-NK" RESERVEDNAME="">
+            <PARENT>XX</PARENT>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>104-XX-NK</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </STOCKCATEGORY>
+          <STOCKITEM NAME="AL-RG Nk" RESERVEDNAME="">
+            <MAILINGNAME.LIST TYPE="String">
+              <MAILINGNAME>Item4partno</MAILINGNAME>
+            </MAILINGNAME.LIST>
+            <PARENT>Alloy Necklaces</PARENT>
+            <CATEGORY>104-XX-NK</CATEGORY>
+            <COSTINGMETHOD>Avg. Cost</COSTINGMETHOD>
+            <VALUATIONMETHOD>Avg. Price</VALUATIONMETHOD>
+            <BASEUNITS>no</BASEUNITS>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>AL-RG Nk</NAME>
+                <NAME>1234</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+            <STANDARDCOSTLIST.LIST>
+              <DATE>20170101</DATE>
+              <RATE>10.00/no</RATE>
+            </STANDARDCOSTLIST.LIST>
+            <STANDARDPRICELIST.LIST>
+              <DATE>20170101</DATE>
+              <RATE>16.00/no</RATE>
+            </STANDARDPRICELIST.LIST>
+            <UDF:RSPLIIIVSTITEMIMAGE.LIST DESC="`RSPL IIIVstitemimage`" ISLIST="YES" TYPE="String" INDEX="7001">
+              <UDF:RSPLIIIVSTITEMIMAGE DESC="`RSPL IIIVstitemimage`">xzyimg</UDF:RSPLIIIVSTITEMIMAGE>
+            </UDF:RSPLIIIVSTITEMIMAGE.LIST>
+            <UDF:DESCRIPTION1.LIST DESC="`Description1`" ISLIST="YES" TYPE="String" INDEX="20001">
+              <UDF:DESCRIPTION1 DESC="`Description1`">abc</UDF:DESCRIPTION1>
+              <UDF:DESCRIPTION1 DESC="`Description1`">def</UDF:DESCRIPTION1>
+              <UDF:DESCRIPTION1 DESC="`Description1`">ghi</UDF:DESCRIPTION1>
+            </UDF:DESCRIPTION1.LIST>
+          </STOCKITEM>
+          <STOCKGROUP NAME="Alloy Rings" RESERVEDNAME="">
+            <PARENT>Alloy Jewellery</PARENT>
+            <COSTINGMETHOD>Avg. Cost</COSTINGMETHOD>
+            <VALUATIONMETHOD>Avg. Price</VALUATIONMETHOD>
+            <BASEUNITS>no</BASEUNITS>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>Alloy Rings</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </STOCKGROUP>
+          <STOCKCATEGORY NAME="104-XX-RI" RESERVEDNAME="">
+            <PARENT>XX</PARENT>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>104-XX-RI</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </STOCKCATEGORY>
+          <STOCKITEM NAME="AL-RG Ring" RESERVEDNAME="">
+            <MAILINGNAME.LIST TYPE="String">
+              <MAILINGNAME>Item5partno</MAILINGNAME>
+            </MAILINGNAME.LIST>
+            <PARENT>Alloy Rings</PARENT>
+            <CATEGORY>104-XX-RI</CATEGORY>
+            <COSTINGMETHOD>Avg. Cost</COSTINGMETHOD>
+            <VALUATIONMETHOD>Avg. Price</VALUATIONMETHOD>
+            <BASEUNITS>no</BASEUNITS>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>AL-RG Ring</NAME>
+                <NAME>1235</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+            <STANDARDCOSTLIST.LIST>
+              <DATE>20170101</DATE>
+              <RATE>5.00/no</RATE>
+            </STANDARDCOSTLIST.LIST>
+            <STANDARDPRICELIST.LIST>
+              <DATE>20170101</DATE>
+              <RATE>12.00/no</RATE>
+            </STANDARDPRICELIST.LIST>
+            <UDF:RSPLIIIVSTITEMIMAGE.LIST DESC="`RSPL IIIVstitemimage`" ISLIST="YES" TYPE="String" INDEX="7001">
+              <UDF:RSPLIIIVSTITEMIMAGE DESC="`RSPL IIIVstitemimage`">foo</UDF:RSPLIIIVSTITEMIMAGE>
+            </UDF:RSPLIIIVSTITEMIMAGE.LIST>
+            <UDF:DESCRIPTION1.LIST DESC="`Description1`" ISLIST="YES" TYPE="String" INDEX="20001">
+              <UDF:DESCRIPTION1 DESC="`Description1`">Item4desc1</UDF:DESCRIPTION1>
+              <UDF:DESCRIPTION1 DESC="`Description1`">Item4desc2</UDF:DESCRIPTION1>
+              <UDF:DESCRIPTION1 DESC="`Description1`">Item4desc3</UDF:DESCRIPTION1>
+            </UDF:DESCRIPTION1.LIST>
+          </STOCKITEM>
+          <GODOWN NAME="Kent Display" RESERVEDNAME="">
+            <PARENT>Kent</PARENT>
+            <LANGUAGENAME.LIST>
+              <NAME.LIST TYPE="String">
+                <NAME>Kent Display</NAME>
+              </NAME.LIST>
+              <LANGUAGEID> 1033</LANGUAGEID>
+            </LANGUAGENAME.LIST>
+          </GODOWN>
+          <VOUCHER REMOTEID="75471753-5439-41fc-89e9-b935c949ae7e-00000004" VCHTYPE="Purchase" ACTION="Create" OBJVIEW="Invoice Voucher View">
+            <DATE>20170313</DATE>
+            <REFERENCEDATE>20170313</REFERENCEDATE>
+            <VOUCHERTYPENAME>Purchase</VOUCHERTYPENAME>
+            <REFERENCE>PUR2</REFERENCE>
+            <VOUCHERNUMBER>2</VOUCHERNUMBER>
+            <PARTYLEDGERNAME>JADAS</PARTYLEDGERNAME>
+            <PERSISTEDVIEW>Invoice Voucher View</PERSISTEDVIEW>
+            <VOUCHERTYPEORIGNAME>Purchase</VOUCHERTYPEORIGNAME>
+            <EFFECTIVEDATE>20170313</EFFECTIVEDATE>
+            <LEDGERENTRIES.LIST>
+              <LEDGERNAME>JADAS</LEDGERNAME>
+              <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+              <AMOUNT>140.00</AMOUNT>
+              <BILLALLOCATIONS.LIST>
+                <NAME>PUR2</NAME>
+                <BILLTYPE>New Ref</BILLTYPE>
+                <AMOUNT>140.00</AMOUNT>
+              </BILLALLOCATIONS.LIST>
+            </LEDGERENTRIES.LIST>
+            <ALLINVENTORYENTRIES.LIST>
+              <BASICUSERDESCRIPTION.LIST TYPE="String">
+                <BASICUSERDESCRIPTION>abc</BASICUSERDESCRIPTION>
+                <BASICUSERDESCRIPTION>def</BASICUSERDESCRIPTION>
+                <BASICUSERDESCRIPTION>ghi</BASICUSERDESCRIPTION>
+              </BASICUSERDESCRIPTION.LIST>
+              <STOCKITEMNAME>AL-RG Nk</STOCKITEMNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <RATE>10.00/no</RATE>
+              <AMOUNT>-70.00</AMOUNT>
+              <ACTUALQTY> 7 no</ACTUALQTY>
+              <BILLEDQTY> 7 no</BILLEDQTY>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>IMPORT PURCHASE</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <AMOUNT>-70.00</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <BATCHALLOCATIONS.LIST>
+                <GODOWNNAME>Kent Box</GODOWNNAME>
+                <DESTINATIONGODOWNNAME>Kent Box</DESTINATIONGODOWNNAME>
+                <AMOUNT>-70.00</AMOUNT>
+                <ACTUALQTY> 7 no</ACTUALQTY>
+                <BILLEDQTY> 7 no</BILLEDQTY>
+              </BATCHALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+            <ALLINVENTORYENTRIES.LIST>
+              <BASICUSERDESCRIPTION.LIST TYPE="String">
+                <BASICUSERDESCRIPTION>Item4desc1</BASICUSERDESCRIPTION>
+                <BASICUSERDESCRIPTION>Item4desc2</BASICUSERDESCRIPTION>
+                <BASICUSERDESCRIPTION>Item4desc3</BASICUSERDESCRIPTION>
+              </BASICUSERDESCRIPTION.LIST>
+              <STOCKITEMNAME>AL-RG Ring</STOCKITEMNAME>
+              <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+              <RATE>5.00/no</RATE>
+              <AMOUNT>-70.00</AMOUNT>
+              <ACTUALQTY> 14 no</ACTUALQTY>
+              <BILLEDQTY> 14 no</BILLEDQTY>
+              <ACCOUNTINGALLOCATIONS.LIST>
+                <LEDGERNAME>IMPORT PURCHASE</LEDGERNAME>
+                <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+                <LEDGERFROMITEM>No</LEDGERFROMITEM>
+                <ISPARTYLEDGER>No</ISPARTYLEDGER>
+                <AMOUNT>-70.00</AMOUNT>
+              </ACCOUNTINGALLOCATIONS.LIST>
+              <BATCHALLOCATIONS.LIST>
+                <GODOWNNAME>Kent Box</GODOWNNAME>
+                <DESTINATIONGODOWNNAME>Kent Box</DESTINATIONGODOWNNAME>
+                <AMOUNT>-50.00</AMOUNT>
+                <ACTUALQTY> 10 no</ACTUALQTY>
+                <BILLEDQTY> 10 no</BILLEDQTY>
+              </BATCHALLOCATIONS.LIST>
+              <BATCHALLOCATIONS.LIST>
+                <GODOWNNAME>Kent Display</GODOWNNAME>
+                <DESTINATIONGODOWNNAME>Kent Display</DESTINATIONGODOWNNAME>
+                <AMOUNT>-20.00</AMOUNT>
+                <ACTUALQTY> 4 no</ACTUALQTY>
+                <BILLEDQTY> 4 no</BILLEDQTY>
+              </BATCHALLOCATIONS.LIST>
+            </ALLINVENTORYENTRIES.LIST>
+          </VOUCHER>
+        </TALLYMESSAGE>
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>

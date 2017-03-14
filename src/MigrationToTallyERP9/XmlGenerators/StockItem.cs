@@ -14,7 +14,7 @@ namespace MigrationToTallyERP9.XmlGenerators
 
             //now add it to TallyXml
             XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
-            parentNode.LastNode.AddAfterSelf(stockItemXml.FirstNode);
+            parentNode.Add(stockItemXml.FirstNode);
         }
 
         public static bool IsAlreadyCreated(string itemName, XElement tallyXml)

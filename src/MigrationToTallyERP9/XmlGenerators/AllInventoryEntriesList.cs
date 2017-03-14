@@ -8,17 +8,17 @@ namespace MigrationToTallyERP9.XmlGenerators
     {
         private static readonly string xmlFileName = "ALLINVENTORYENTRIES.LIST";
         
-        public static void CreateAllInventoryEntriesListXml(XElement tallyXml, params string[] args)
+        public static void CreateAllInventoryEntriesListXml(XElement voucherXml, params string[] args)
         {
             XElement allInvXml = XmlComponentGenerator.CreateXmlFromTemplate(xmlFileName, args);
             
             //now add it to TallyXml
-            tallyXml.XPathSelectElement("//REQUESTDATA//VOUCHER").LastNode.AddAfterSelf(allInvXml);
+            voucherXml.Add(allInvXml);
         }
 
-        public static bool IsAlreadyCreated(string stockItemName, XElement tallyXml)
+        public static bool IsAlreadyCreated(string stockItemName, XElement voucherXml)
         {
-            XElement xml = tallyXml.XPathSelectElement($"//REQUESTDATA//VOUCHER/ALLINVENTORYENTRIES.LIST/STOCKITEMNAME[.='{stockItemName}']");
+            XElement xml = voucherXml.XPathSelectElement($"./ALLINVENTORYENTRIES.LIST/STOCKITEMNAME[.='{stockItemName}']");
 
             if(xml != null)
                 return true;
@@ -29,13 +29,13 @@ namespace MigrationToTallyERP9.XmlGenerators
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="tallyXml"></param>
+        /// <param name="voucherXml"></param>
         /// <returns>Total Voucher amount</returns>
-        public static float CalculateAndFillInventoryEntryAmounts(XElement tallyXml)
+        public static float CalculateAndFillInventoryEntryAmounts(XElement voucherXml)
         {
             float totalAmt = 0.0f;
 
-            var allInventoryEntriesList = tallyXml.XPathSelectElements("//REQUESTDATA//VOUCHER/ALLINVENTORYENTRIES.LIST");
+            var allInventoryEntriesList = voucherXml.XPathSelectElements("./ALLINVENTORYENTRIES.LIST");
             foreach (var entry in allInventoryEntriesList)
             {
                 float inventoryEntryAmt;

@@ -1,29 +1,24 @@
 using System.IO;
 using System.Collections.Generic;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace MigrationToTallyERP9.CSVParser
 {
     public class ParseCSVFiles
     {
-        public static IEnumerable<HeaderCSVParams> ParseHeaderCSV(string headerCSVFile)
+        public static IEnumerable<T> ParseCSV<T,TMap>(string headerCSVFile)
+            where T:class
+            where TMap:CsvClassMap<T>
         {
             TextReader tr = File.OpenText(headerCSVFile);
 
             var csv = new CsvReader(tr);
-            csv.Configuration.RegisterClassMap<HeaderCSVParamsMap>();
+            csv.Configuration.RegisterClassMap<TMap>();
+            csv.Configuration.TrimFields = true;
                 
-            return csv.GetRecords<HeaderCSVParams>();
+            return csv.GetRecords<T>();
         }
 
-        public static IEnumerable<ItemsCSVParams> ParseItemsCSV(string itemsCSVFile)
-        {
-            TextReader tr = File.OpenText(itemsCSVFile);
-
-            var csv = new CsvReader(tr);
-            csv.Configuration.RegisterClassMap<ItemsCSVParamsMap>();
-                
-            return csv.GetRecords<ItemsCSVParams>();
-        }
     }
 }

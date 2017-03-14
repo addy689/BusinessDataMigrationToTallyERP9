@@ -9,23 +9,23 @@ namespace MigrationToTallyERP9.XmlGenerators
     {
         private static readonly string xmlFileName = "BATCHALLOCATIONS.LIST";
 
-        public static void CreateBatchAllocationsListXml(XElement tallyXml, string itemName, params string[] args)
+        public static void CreateBatchAllocationsListXml(XElement voucherXml, string itemName, params string[] args)
         {
             XElement batchAllocXml = XmlComponentGenerator.CreateXmlFromTemplate(xmlFileName, args);
             
-            AddXmlToCorrespondingInventoriesList(tallyXml, batchAllocXml, itemName);
+            AddXmlToCorrespondingInventoriesList(voucherXml, batchAllocXml, itemName);
         }
 
         /// <summary>
         /// Adds an item's BATCHALLOCATIONS.LIST to it's corresponding ALLINVENTORYENTRIES.LIST
         /// </summary>
-        /// <param name="tallyXml"></param>
+        /// <param name="voucherXml"></param>
         /// <param name="batchAllocXml"></param>
         /// <param name="stockItemName"></param>
-        private static void AddXmlToCorrespondingInventoriesList(XElement tallyXml, XElement batchAllocXml, string stockItemName)
+        private static void AddXmlToCorrespondingInventoriesList(XElement voucherXml, XElement batchAllocXml, string stockItemName)
         {
             //Add BatchAllocationXml to the AllInventory list that has the same item name
-            XElement[] res = tallyXml.XPathSelectElements("//REQUESTDATA//VOUCHER/ALLINVENTORYENTRIES.LIST").Where<XElement>(el => el.XPathSelectElement($"./STOCKITEMNAME[.='{stockItemName}']") != null).ToArray();
+            XElement[] res = voucherXml.XPathSelectElements("./ALLINVENTORYENTRIES.LIST").Where<XElement>(el => el.XPathSelectElement($"./STOCKITEMNAME[.='{stockItemName}']") != null).ToArray();
 
             if(res.Length<=0)
             {
@@ -38,7 +38,7 @@ namespace MigrationToTallyERP9.XmlGenerators
             var batchAllocNodes = res[0].XPathSelectElements("./BATCHALLOCATIONS.LIST").ToArray();
             
             if(batchAllocNodes.Count() == 0)
-                res[0].LastNode.AddAfterSelf(batchAllocXml);
+                res[0].Add(batchAllocXml);
             else
                 batchAllocNodes.Last().AddAfterSelf(batchAllocXml);
         }

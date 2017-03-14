@@ -27,6 +27,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
+                                
             },
             "sourceFileMap": {
                 "/Views": "${workspaceRoot}/src/WebApp/Views"

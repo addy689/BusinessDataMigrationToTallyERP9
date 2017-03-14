@@ -1,0 +1,39 @@
+{
+    "version": "0.1.0",
+    "tasks": [
+        {
+            "command": "dotnet",
+            "isShellCommand": true,
+            "taskName": "build",
+            "args": [
+                "build",
+                "${workspaceRoot}/project.json"
+            ],
+            "isBuildCommand": true,
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "command": "cp",
+            "isShellCommand": true,
+            "taskName": "preLaunchTask",
+            "args": [
+                "-v",
+                "/mnt/hgfs/GoogleDrive/P&J Handcrafted/Communication for P&J/SampleHeader.csv",
+                "/mnt/hgfs/GoogleDrive/P&J Handcrafted/Communication for P&J/SampleItems.csv",
+                "/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/CSVParser/InputCSVData/"
+            ],
+            "showOutput": "always"
+        },
+        {
+            "command": "cp",
+            "isShellCommand": true,
+            "taskName": "postLaunchTask",
+            "args": [
+                "-v",
+                "/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/TallyInventoryImport.xml",
+                "/mnt/hgfs/GoogleDrive/P&J Handcrafted/Communication for P&J/"
+            ],
+            "showOutput": "always"
+        }
+    ]
+}
