@@ -22,9 +22,9 @@ namespace MigrationToTallyERP9.XmlGenerators
 
         }
 
-        public static void UpdateFinalAmtInVoucherXml(float voucherAmt, XElement voucherXml)
+        public static void UpdateFinalAmtInVoucherXml(double voucherAmt, XElement voucherXml)
         {
-            string isDeemedPositive = ComputationHelper.IsDeemedPositive(voucherAmt);
+            string isDeemedPositive = ComputationHelper.IsDeemedPositive((float)voucherAmt);
 
             var elmt = voucherXml.XPathSelectElement("./LEDGERENTRIES.LIST");
             

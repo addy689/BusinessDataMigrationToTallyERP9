@@ -6,7 +6,7 @@ namespace MigrationToTallyERP9
         {
             get
             {
-                return @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/XmlGenerators/TemplateXmlFiles/";
+                return @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/XmlGenerators/TemplateXmlFiles";
             }
         }
         
@@ -14,7 +14,7 @@ namespace MigrationToTallyERP9
         {
             get
             {
-                return @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/CSVParser/InputCSVData/";
+                return @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/CSVParser/InputCSVData";
             }
         }
 
@@ -22,7 +22,31 @@ namespace MigrationToTallyERP9
         {
             get
             {
-                return @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/";
+                return @"/home/addy689/VSCodeProjects/DotNetCoreApps/PamJoeHandcraftedApps/src/MigrationToTallyERP9/OutputXmlsForImport";
+            }
+        }
+
+        public static string BarcodeCSVFilePath
+        {
+            get
+            {
+                return InputCSVDataDir + "/AssignedBarcodes.csv";
+            }
+        }
+
+        public static string TallyItemsCsvFileNameWithExtension
+        {
+            get
+            {
+                return "SampleItems.csv";
+            }
+        }
+
+        public static string TallyHeaderCsvFileNameWithExtension
+        {
+            get
+            {
+                return "SampleHeader.csv";
             }
         }
     }

@@ -31,7 +31,7 @@ namespace MigrationToTallyERP9.XmlGenerators
         /// </summary>
         /// <param name="voucherXml"></param>
         /// <returns>Total Voucher amount</returns>
-        public static float CalculateAndFillInventoryEntryAmounts(XElement voucherXml)
+        public static double CalculateAndFillInventoryEntryAmounts(XElement voucherXml)
         {
             float totalAmt = 0.0f;
 

@@ -6,15 +6,15 @@ namespace MigrationToTallyERP9.CSVParser
     {
         public HeaderCSVParamsMap()
         {
-            Map(m => m.VchRemoteId).Name("VOUCHER_REMOTEID");
-            Map(m => m.PartyName).Name("PARTY_LEDGER");
-            Map(m => m.CountryName).Name("COUNTRY_NAME");
-            Map(m => m.BillDate).Name("BILL_DATE");
-            Map(m => m.RecvDate).Name("RECEIVE_DATE");
-            Map(m => m.VchType).Name("VOUCHER_TYPE");
-            Map(m => m.InvNo).Name("INVOICE_NO");
-            Map(m => m.VchNo).Name("VOUCHER_NO");
-            Map(m => m.PurchLedger).Name("PURCH_LEDGER");
+            Map(m => m.VchRemoteId).Name("voucher_remoteid");
+            Map(m => m.PartyName).Name("party_ledger");
+            Map(m => m.CountryName).Name("country_name");
+            Map(m => m.BillDate).Name("bill_date");
+            Map(m => m.RecvDate).Name("receive_date");
+            Map(m => m.VchType).Name("voucher_type");
+            Map(m => m.InvNo).Name("invoice_no");
+            Map(m => m.VchNo).Name("voucher_no");
+            Map(m => m.PurchLedger).Name("purch_ledger");
         }
     }
 }

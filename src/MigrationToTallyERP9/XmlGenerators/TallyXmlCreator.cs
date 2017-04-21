@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -9,23 +10,41 @@ namespace MigrationToTallyERP9.XmlGenerators
 {
     public class TallyXmlCreator
     {
-        private static HeaderCSVParams headerParams;
-        private static XElement voucherXmlElement;
-        public static void CreateTallyXmlsUsingHeaderParams(IEnumerable<HeaderCSVParams> headerCSVParams, XElement tallyXml)
+        private XElement tallyXml;
+        private HeaderCSVParams headerCSVParams;
+        private IEnumerable<ItemsCSVParams> itemsCSVParams;
+        
+        private XElement voucherXmlElement;
+                
+        public TallyXmlCreator(HeaderCSVParams headerCSVParams, IEnumerable<ItemsCSVParams> itemsCSVParams, XElement tallyXml)
         {
-            headerParams = headerCSVParams.First();
-
-            //Note that voucher xml is being filled with {0} for values
-            //that need to be computed during post-processing
-            voucherXmlElement = Voucher.CreateVoucherXml(tallyXml, headerParams.VchRemoteId, headerParams.BillDate, headerParams.RecvDate, headerParams.VchType,
-                            headerParams.InvNo, headerParams.PartyName, headerParams.VchNo, "{0}");
-
-            Ledger.CreatePartyLedgerXml(tallyXml, headerParams.PartyName, headerParams.CountryName);
-            Ledger.CreatePurchaseLedgerXml(tallyXml, headerParams.PurchLedger);
+            this.headerCSVParams = headerCSVParams;
+            this.itemsCSVParams = itemsCSVParams;
+            this.tallyXml = tallyXml;
+        }
+        
+        public void Create(string outputXmlFileName)
+        {
+            CreateTallyXmlsUsingHeaderParams();
+            CreateTallyXmlsUsingItemsParams(outputXmlFileName);
+            DoPostProcessing();
         }
 
-        public static void CreateTallyXmlsUsingItemsParams(IEnumerable<ItemsCSVParams> itemsCSVParams, XElement tallyXml)
+        private void CreateTallyXmlsUsingHeaderParams()
         {
+            //Note that voucher xml is being filled with {0} for values
+            //that need to be computed during post-processing
+            voucherXmlElement = Voucher.CreateVoucherXml(tallyXml, headerCSVParams.VchRemoteId, headerCSVParams.BillDate, headerCSVParams.RecvDate, headerCSVParams.VchType,
+                            headerCSVParams.InvNo, headerCSVParams.PartyName, headerCSVParams.VchNo, "{0}");
+
+            Ledger.CreatePartyLedgerXml(tallyXml, headerCSVParams.PartyName, headerCSVParams.CountryName);
+            Ledger.CreatePurchaseLedgerXml(tallyXml, headerCSVParams.PurchLedger);
+        }
+
+        private void CreateTallyXmlsUsingItemsParams(string outputXmlFileName)
+        {
+            List<string> assignedBarcodesList = new List<string>();
+
             foreach (ItemsCSVParams itemParams in itemsCSVParams)
             {
                 //Create and add Parent+Child Godown xmls
@@ -66,6 +85,10 @@ namespace MigrationToTallyERP9.XmlGenerators
                 //Create and add StockItem xml
                 if (!StockItem.IsAlreadyCreated(itemParams.ItemName, tallyXml))
                 {
+                    //Get the next available barcode and assign it
+                    itemParams.Barcode = BarcodeValueGen.Instance.GetMeNewBarcode().ToString();
+                    assignedBarcodesList.Add(itemParams.Barcode);
+
                     StockItem.CreateStockItemXml(tallyXml, itemParams.ItemName, itemParams.PartNo,
                         itemParams.StockGroupChild, itemParams.StockCategoryChild, itemParams.Barcode,
                         itemParams.CP, itemParams.SP, itemParams.ImgPath, itemParams.Desc1,
@@ -79,24 +102,31 @@ namespace MigrationToTallyERP9.XmlGenerators
                 {
                     AllInventoryEntriesList.CreateAllInventoryEntriesListXml(voucherXmlElement, itemParams.Desc1,
                         itemParams.Desc2, itemParams.Desc3, itemParams.ItemName, itemParams.CP, "{0}",
-                        headerParams.PurchLedger);
+                        headerCSVParams.PurchLedger);
                 }
 
                 //Create and add BatchAllocationsList xml
                 float batchCP = -ComputationHelper.CalculateAmount(itemParams.CP, itemParams.BilledQty);
                 BatchAllocationsList.CreateBatchAllocationsListXml(voucherXmlElement, itemParams.ItemName, itemParams.GodownChild,
-                    batchCP.ToString("0.00"), itemParams.ActualQty, itemParams.BilledQty);
+                    Math.Round(batchCP, 2).ToString("0.00"), itemParams.ActualQty, itemParams.BilledQty);
             }
+
+            BarcodeCSVParams barcodesLogData = new BarcodeCSVParams();
+            barcodesLogData.FirstBarcodeAssigned = assignedBarcodesList.First();
+            barcodesLogData.LastBarcodeAssigned = assignedBarcodesList.Last();
+            barcodesLogData.AssociatedOutputXml = outputXmlFileName;
+            barcodesLogData.TimeStamp = DateTime.Now.ToString();
+            
+            WriteToCSVFiles.WriteBarcodesDataToFile(barcodesLogData);
         }
 
         /// <summary>
         /// For each inventory item, compute sum of BatchAllocations.list amounts, billed qty and actual qty. 
         /// Simultaneously, compute voucher amount for all inventory items
         /// </summary>
-        /// <param name="tallyXml"></param>
-        public static void DoPostProcessing(XElement tallyXml)
+        private void DoPostProcessing()
         {
-            float voucherAmt = -AllInventoryEntriesList.CalculateAndFillInventoryEntryAmounts(voucherXmlElement);
+            double voucherAmt = -AllInventoryEntriesList.CalculateAndFillInventoryEntryAmounts(voucherXmlElement);
 
             //Add the voucher amt to the xml
             Voucher.UpdateFinalAmtInVoucherXml(voucherAmt, voucherXmlElement);
@@ -105,14 +135,14 @@ namespace MigrationToTallyERP9.XmlGenerators
             XElement parentNode = tallyXml.XPathSelectElements("//REQUESTDATA/TALLYMESSAGE").First();
 
             parentNode.Add(voucherXmlElement);
-        }        
+        }
     }
 
     public class XmlComponentGenerator
     {
         public static XElement TallyXml
         {
-            get { return XElement.Load(Configurations.XmlTemplatesDir + "TALLYMAIN.xml"); }
+            get { return XElement.Load(Configurations.XmlTemplatesDir + "/TALLYMAIN.xml"); }
         }
 
         /// <summary>
@@ -123,7 +153,7 @@ namespace MigrationToTallyERP9.XmlGenerators
         /// <returns></returns>
         public static XElement CreateXmlFromTemplate(string xmlTemplateName, params string[] args)
         {
-            string xmlTemplateFile = Configurations.XmlTemplatesDir + $"{xmlTemplateName}.xml";
+            string xmlTemplateFile = Configurations.XmlTemplatesDir + $"/{xmlTemplateName}.xml";
 
             string xmlTemplateString = File.OpenText(xmlTemplateFile).ReadToEnd();
             string filledXmlString = string.Format(xmlTemplateString, args);

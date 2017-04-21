@@ -54,10 +54,10 @@ namespace MigrationToTallyERP9.Tests.XmlGeneratorTests
             string[] expectedBatchesQtys = new string[] { "12", "50" };
 
             float expectedVoucherSum = 370.00f;
-            float actualVoucherSum = -AllInventoryEntriesList.CalculateAndFillInventoryEntryAmounts(tallyXml);
+            double actualVoucherSum = -AllInventoryEntriesList.CalculateAndFillInventoryEntryAmounts(tallyXml);
 
             Assert.AreEqual(expectedVoucherSum, actualVoucherSum);
-            Assert.AreEqual("No", ComputationHelper.IsDeemedPositive(actualVoucherSum));
+            Assert.AreEqual("No", ComputationHelper.IsDeemedPositive((float)actualVoucherSum));
 
             var allInvEntries = tallyXml.XPathSelectElements("//REQUESTDATA//VOUCHER/ALLINVENTORYENTRIES.LIST").ToArray();
 
