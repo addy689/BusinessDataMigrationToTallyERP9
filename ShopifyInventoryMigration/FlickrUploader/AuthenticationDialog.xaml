@@ -1,0 +1,49 @@
+﻿<Window x:Class="FlickrUploader.AuthenticationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FlickrUploader"
+        mc:Ignorable="d"
+        Title="AuthenticationDialog" Height="300" Width="450">
+    
+    <Grid Background="White">
+    
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="5,0,5,0" Grid.Row="0" Width="400" Height="70" TextWrapping="WrapWithOverflow">
+            Click AUTHENTICATE to start authentication. You will be taken to the Flickr web site. 
+            Once you have authenticated, copy the Verification Code that you receive into the box below, and then click COMPLETE.
+        </TextBlock>
+        <GroupBox Grid.Row="1" x:Name="step1Ctl" Header="STEP 1">
+            <TextBlock Width="95" Height="23">
+                <Hyperlink Click="OnClickLinkAuthenticate">AUTHENTICATE</Hyperlink>
+            </TextBlock>
+        </GroupBox>
+        <GroupBox Grid.Row="2" x:Name="step2Ctl" Header="STEP 2" IsEnabled="False">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="1.5*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Label>Verification Code</Label>
+                    <Grid Width="10"></Grid>
+                    <TextBox x:Name="verifierCodeCtl" Width="120" Height="20" HorizontalContentAlignment="Center"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1" Width="75" Height="23" Margin="110,0,0,0">
+                    <Hyperlink Click="OnClickLinkComplete">COMPLETE</Hyperlink>
+                </TextBlock>
+                <TextBlock x:Name="resultCtl" Grid.Row="2" Width="300" TextWrapping="WrapWithOverflow" VerticalAlignment="Center" FontWeight="DemiBold"/>
+            </Grid>
+        </GroupBox>
+    
+    </Grid>
+</Window>

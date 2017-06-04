@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Authors>Addy Singh</Authors>
+    <Company />
+    <Product>Price Tags Generator</Product>
+    <Description>Provides APIs to create price tags in a richly formatted spreadsheet, using qty-based/code-based inventory csv files as input data</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.4\PriceTagsGeneratorLib.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="2.16.3" />
+    <PackageReference Include="EPPlus.Core" Version="1.3.2" />
+  </ItemGroup>
+
+</Project>
